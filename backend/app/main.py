@@ -145,7 +145,9 @@ async def hackrx_run(req: HackRxRequest):
     answers = [merged.get(f"Q{i+1}", {}).get("answer", "Error") for i in range(len(req.questions))]
     return {"answers": answers}
 
-
+@app.get("/")
+def root():
+    return {"message": "LLM backend is live!"}
  
 
 if __name__ == "__main__":
