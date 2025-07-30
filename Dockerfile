@@ -8,7 +8,7 @@ ENV PYTHONUNBUFFERED=1
 # Set working directory
 WORKDIR /app
 
-# Install only required system dependencies
+# Install required system dependencies
 RUN apt-get update && apt-get install -y \
     gcc \
     libffi-dev \
@@ -17,16 +17,20 @@ RUN apt-get update && apt-get install -y \
     && apt-get clean \
     && rm -rf /var/lib/apt/lists/*
 
-# Preinstall pip requirements
+# Install pip packages
 COPY backend/requirements.txt .
 RUN pip install --no-cache-dir --upgrade pip \
  && pip install --no-cache-dir -r requirements.txt
 
-# Copy application code last (better layer caching)
+# Copy application code
 COPY backend /app
 
+# Tell Railway which port to expose
+EXPOSE 8000
+
+# Set environment variable for Railway
 ENV PORT=8000
+
+# Launch FastAPI app
 CMD ["uvicorn", "app.main:app", "--host", "0.0.0.0", "--port", "8000"]
-
-
 
