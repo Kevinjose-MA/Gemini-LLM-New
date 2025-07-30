@@ -29,5 +29,5 @@ COPY backend /app
 EXPOSE 8000
 
 # Start FastAPI
-CMD ["python", "run.py"]
+CMD ["python", "main.py"]
 
